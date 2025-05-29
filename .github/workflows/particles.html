@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Psycho-Pass Intro</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: black;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body onclick="PlayAudio()" onload="myFunction()">
+  <audio id="musica1" hidden loop>  
+    <source src="Ling Tosite Sigure Abnormalize.mp3" type="audio/mpeg">
+    </audio>
+  <canvas id="introCanvas"></canvas>
+  <script src="psycho-pass-intro2.js"></script>
+  <script type="text/javascript">
+  // Player by clicking
+      function PlayAudio(){
+          document.getElementById('musica1').play();
+      }
+  
+      window.onload = function(){
+          document.getElementById('musica1').play();
+      }
+  
+      var myVar;
+    </script>
+  <script>
+    const canvas = document.getElementById('introCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let glitchTexts = ["PSYCHO-PASS", "SIBYL SYSTEM", "INSPECTOR", "ENFORCER"];
+let particles = [];
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2;
+    this.speedX = -1 + Math.random() * 2;
+    this.speedY = -1 + Math.random() * 2;
+    this.alpha = 0.1 + Math.random() * 0.4;
+  }
+
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    if (
+      this.x < 0 || this.x > canvas.width ||
+      this.y < 0 || this.y > canvas.height
+    ) {
+      this.reset();
+    }
+  }
+
+  draw() {
+    ctx.fillStyle = `rgba(0, 255, 255, ${this.alpha})`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 150; i++) {
+  particles.push(new Particle());
+}
+
+function drawGlitchText(text, x, y) {
+  const layers = 3;
+  for (let i = 0; i < layers; i++) {
+    const dx = (Math.random() - 0.5) * 4;
+    const dy = (Math.random() - 0.5) * 4;
+    const color = i === 0 ? '#0ff' : i === 1 ? '#f0f' : '#fff';
+    ctx.fillStyle = color;
+    ctx.font = 'bold 48px monospace';
+    ctx.fillText(text, x + dx, y + dy);
+  }
+}
+
+function drawScanLines() {
+  ctx.strokeStyle = 'rgba(0,255,255,0.05)';
+  for (let y = 0; y < canvas.height; y += 4) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+}
+
+function animate() {
+  ctx.fillStyle = 'rgba(0,0,0,0.1)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  for (let p of particles) {
+    p.update();
+    p.draw();
+  }
+
+  drawScanLines();
+
+  const text = glitchTexts[Math.floor(Date.now() / 2000) % glitchTexts.length];
+  drawGlitchText(text, canvas.width / 2 - 160, canvas.height / 2);
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+  </script>
+</body>
+</html>
