@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Psycho-Pass Intro</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: black;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body onclick="PlayAudio()" onload="myFunction()">
+  <audio id="musica1" hidden loop>  
+    <source src="Ling Tosite Sigure Abnormalize.mp3" type="audio/mpeg">
+    </audio>
+  <canvas id="introCanvas"></canvas>
+  <script src="psycho-pass-intro2.js"></script>
+  <script type="text/javascript">
+  // Player by clicking
+      function PlayAudio(){
+          document.getElementById('musica1').play();
+      }
+  
+      window.onload = function(){
+          document.getElementById('musica1').play();
+      }
+  
+      var myVar;
+    </script>
+</body>
+</html>
